@@ -10,7 +10,7 @@
 bool hasBlack(OCTET* tab, int nTaille){
   bool res=false;
   for(int i=1;i<nTaille-1;i++){
-    if(tab[i]==0){
+    if(tab[i]==255){
       res=true;
       break;
     }
@@ -21,16 +21,17 @@ bool hasBlack(OCTET* tab, int nTaille){
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];
-  int nH, nW, nTaille;
+  int nH, nW, nTaille, bloc;
   
-  if (argc != 3) 
+  if (argc != 4) 
      {
-       printf("Usage: ImageIn.pgm ImageOut.pgm \n"); 
+       printf("Usage: ImageIn.pgm ImageOut.pgm TailleBloc\n"); 
        exit (1) ;
      }
    
    sscanf (argv[1],"%s",cNomImgLue) ;
    sscanf (argv[2],"%s",cNomImgEcrite);
+   sscanf (argv[3],"%i",&bloc);
 
    OCTET *ImgIn, *ImgOut;
    
@@ -49,17 +50,16 @@ int main(int argc, char* argv[])
    int dist;
    bool check;
    int interation=0;
-   int bloc=3;
     while(hasBlack(ImgIn,nTaille) and interation<100){
       std::cout<<interation<<std::endl;
      for(int i=bloc;i<nH-bloc;i++){
       for(int j=bloc;j<nW-bloc;j++){
 
-        if(ImgOut[i*nW+j]==0){
+        if(ImgOut[i*nW+j]==255){
           check=false;
           for(int k=-bloc;k<=bloc;k++){
             for(int f=-bloc;f<=bloc;f++){
-              if(ImgOut[(i+k)*nW+j+f]!=0){
+              if(ImgOut[(i+k)*nW+j+f]!=255){
                 borderi=i+k;
                 borderj=j+f;
                 check=true;
@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
           //ImgOut[i*nW+j]=ImgIn[index];
           for(int h=-bloc;h<=bloc;h++){
             for(int w=-bloc;w<=bloc;w++){
-              if(ImgIn[(indexi+h)*nW+indexj+w]!=0){
+              if(ImgIn[(indexi+h)*nW+indexj+w]!=255){
                 ImgOut[(i+h)*nW+j+w]=ImgIn[(indexi+h)*nW+indexj+w];
               }
             }

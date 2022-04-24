@@ -28,21 +28,44 @@ int main(int argc, char* argv[])
    allocation_tableau(ImgOut, OCTET, nTaille);
    lire_image_pgm(cNomImgEcrite, ImgOut, nH * nW);
 
+   float verite=0.0;
    float count=0.0;
    float accuracy=0.0;
+   float vraiPositif=0.0;
+   float fauxPositif=0.0;
+   float vraiNegatif=0.0;
+   float fauxNegatif=0.0;
    for(int i=0;i<nTaille;i++){
-    if(ImgIn[i]==0){
+    if(ImgIn[i]==255){
+      verite++;
+    }
+   }
+
+   for(int i=0;i<nTaille;i++){
+    if(ImgOut[i]==255){
+      if(ImgIn[i]==255){
+        vraiPositif++;
+      }
+      else{
+        fauxPositif++;
+      }
       count++;
     }
    }
 
-   for(int i=0;i<nTaille;i++){
-    if(ImgIn[i]==0 and ImgOut[i]==255){
-      accuracy++;
+    for(int i=0;i<nTaille;i++){
+    if(ImgOut[i]==0){
+      if(ImgIn[i]==0){
+        vraiNegatif++;
+      }
+      else{
+        fauxNegatif++;
+      }
+      count++;
     }
-   }
+   }   
 
-   accuracy/=count;
+   accuracy=(vraiPositif+vraiNegatif)/(vraiPositif+vraiNegatif+fauxPositif+fauxNegatif);
    std::cout<<accuracy<<std::endl;
 
    free(ImgIn);free(ImgOut);
