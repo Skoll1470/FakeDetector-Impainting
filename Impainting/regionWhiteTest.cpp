@@ -21,7 +21,7 @@ bool hasBlack(OCTET* tab, int nTaille){
 }
 
 
-//complète les zones en recherchant les régions les plus cohérentes, fonctionne qu'avec des zones blanche
+//complète les zones en recherchant les régions les plus cohérentes, fonctionne qu'avec des zones blanches
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];
@@ -55,35 +55,81 @@ int main(int argc, char* argv[])
    bool check;
    int interation=0;
 
+   int distanceGauche, distanceDroite, distanceHaut, distanceBas;
+
    while(hasBlack(ImgIn,nTaille) and interation<100){
     std::cout<<interation<<std::endl;
     for(int i=bloc;i<nH-bloc;i++){
 
       for(int j=bloc;j<nW-bloc;j++){
 
+        check=false;
+        distanceHaut=nH;
+        distanceBas=nH;
+        distanceGauche=nW;
+        distanceDroite=nW;
+
         if(ImgOut[i*nW+j]==255){
 
-          check=false;
-          for(int k=-bloc;k<=bloc;k++){
-
-            for(int f=-bloc;f<=bloc;f++){
-
-              if(ImgOut[(i+k)*nW+j+f]!=255){
-
-                borderi=i+k;
-                borderj=j+f;
-                check=true;
-                break;
-
-              }
-
-            }
-            if(check){
+          for(int g=j;g>=0;g--){
+            if(ImgIn[i*nW+g]!=255){
+              distanceGauche=abs(g-j);
               break;
             }
           }
-          if(!check){
-            break;
+          for(int d=j;d<nW;d++){
+            if(ImgIn[i*nW+d]!=255){
+              distanceDroite=abs(d-j);
+              break;
+            }
+          }
+          for(int h=i;h>=0;h--){
+            if(ImgIn[h*nW+j]!=255){
+              distanceHaut=abs(h-i);
+              break;
+            }
+          }
+          for(int b=i;b<nH;b++){
+            if(ImgIn[b*nW+j]!=255){
+              distanceBas=abs(b-i);
+              break;
+            }
+          }
+          if(distanceGauche<=distanceDroite and distanceGauche<=distanceHaut and distanceGauche<=distanceBas){
+            for(int g=j;g>=0;g--){
+              if(ImgOut[i*nW+g]!=255){
+                borderi=i;
+                borderj=g;
+                break;
+              }
+            }
+          }
+          if(distanceDroite<=distanceGauche and distanceDroite<=distanceHaut and distanceDroite<=distanceBas){
+            for(int d=j;d<nW;d++){
+              if(ImgOut[i*nW+d]!=255){
+                borderi=i;
+                borderj=d;
+                break;
+              }
+            }
+          }
+          if(distanceHaut<=distanceGauche and distanceHaut<=distanceDroite and distanceHaut<=distanceBas){
+            for(int h=i;h>=0;h--){
+              if(ImgOut[h*nW+j]!=255){
+                borderi=h;
+                borderj=j;
+                break;
+              }
+            }
+          }
+          if(distanceBas<=distanceGauche and distanceBas<=distanceDroite and distanceBas<=distanceHaut){
+            for(int b=i;b<nH;b++){
+              if(ImgOut[b*nW+j]!=255){
+                borderi=b;
+                borderj=j;
+                break;
+              }
+            }
           }               
           dist=256;
           indexi=nH;

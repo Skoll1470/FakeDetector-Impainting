@@ -15,7 +15,7 @@ bool hasZero(OCTET* Img, int nTaille){
 }
 
 
-//applique la valeur moyenne de ses voisins à un pixel à compléter
+//applique la valeur moyenne de ses voisins à un pixel
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];
