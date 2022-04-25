@@ -6,6 +6,8 @@
 #include <cmath>
 #include <iostream>
 
+
+//écrit une image bnaire en fonction de la densité de probabilité
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];

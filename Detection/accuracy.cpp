@@ -4,6 +4,7 @@
 #include "image_ppm.h"
 #include <iostream>
 
+//donne la précision d'une image résultante de dpp
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];

@@ -3,6 +3,8 @@
 #include <iostream>
 #include "image_ppm.h"
 
+
+//applique la dilatation sur chaque pixel à compléter
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];
@@ -38,35 +40,17 @@ int main(int argc, char* argv[])
      {
       if(ImgIn[i*nW+j]==0){
         int max=0;
-          if(i-1>0){
-            max=std::max(max,(int)ImgIn[(i-1)*nW+j]);
-            if(j-1>0){
-              max=std::max(max,(int)ImgIn[(i-1)*nW+j-1]);
-            }
-            if(j+1<nW){
-              max=std::max(max,(int)ImgIn[(i-1)*nW+j+1]);
+        for(int z=-1;z<=1;z++){
+          for(int y=-1;y<=1;y++){
+            if((i+z)*nW+j+y>0 and (i+z)*nW+j+y<nTaille){
+              max=std::max(max,(int)ImgIn[(i+z)*nW+j+y]);  
             }
           }
-          if(j-1>0){
-            max=std::max(max,(int)ImgIn[i*nW+j-1]);
-          }
-          if(j+1<nW){
-            max=std::max(max,(int)ImgIn[i*nW+j+1]);
-          }
-          if(i+1<nH){
-            max=std::max(max,(int)ImgIn[(i+1)*nW+j]);
-            if(j-1>0){
-              max=std::max(max,(int)ImgIn[(i+1)*nW+j-1]);
-            }
-            if(j+1<nW){
-              max=std::max(max,(int)ImgIn[(i+1)*nW+j+1]);
-            }
-         }
-         ImgIn[i*nW+j]=max;
+        }  
+        ImgIn[i*nW+j]=max;
        }
       }
     }
-
    ecrire_image_pgm(cNomImgEcrite, ImgIn,  nH, nW);
    free(ImgIn);
    return 1;

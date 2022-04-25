@@ -14,6 +14,8 @@ bool hasZero(OCTET* Img, int nTaille){
   return res;
 }
 
+
+//applique la valeur moyenne de ses voisins à un pixel à compléter
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];
@@ -46,37 +48,13 @@ int main(int argc, char* argv[])
         k=0;
         //std::cout<<(int)ImgIn[i*nW+j]<<std::endl;
         if(ImgIn[i*nW+j]==0){
-          if(i-1>0 and ImgIn[(i-1)*nW+j] > 5){
-            moy+=ImgIn[(i-1)*nW+j];
-            k++;
-          }
-          if(i-1>0 and j-1>0 and ImgIn[(i-1)*nW+j-1]> 5){
-            moy+=ImgIn[(i-1)*nW+j-1];
-            k++;
-          }
-          if(i-1>0 and j+1<nW and ImgIn[(i-1)*nW+j+1]> 5){
-            moy+=ImgIn[(i-1)*nW+j+1];
-            k++;
-          }
-          if(i+1<nH and ImgIn[(i+1)*nW+j]> 5){
-            moy+=ImgIn[(i+1)*nW+j];
-            k++;
-          }
-          if(i+1<nH and j-1>0 and ImgIn[(i+1)*nW+j-1]> 5){
-            moy+=ImgIn[(i+1)*nW+j-1];
-            k++;
-          }
-          if(i+1<nH and j+1<nW and ImgIn[(i+1)*nW+j+1]> 5){
-            moy+=ImgIn[(i+1)*nW+j+1];
-            k++;
-          }
-          if(j-1>0 and ImgIn[i*nW+j-1]> 5){
-            moy+=ImgIn[i*nW+j-1];
-            k++;
-          }
-          if(j+1<nW and ImgIn[i*nW+j+1]> 5){
-            moy+=ImgIn[i*nW+j+1];
-            k++;
+          for(int z=-1;z<=1;z++){
+            for(int y=-1;y<=1;y++){
+              if((i+z)*nW+j+y>0 and (i+z)*nW+j+y<nTaille){
+                k++;
+                moy+=ImgIn[(i+z)*nW+j+y];
+              }
+            }
           }
           if(k>0){
             std::cout<<k<<" "<<moy<<std::endl;

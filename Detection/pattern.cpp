@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 
+//donne une image de bruit à base de pattern/textures
 int main(int argc, char* argv[])
 {
   char cNomImgLue[250], cNomImgEcrite[250];
